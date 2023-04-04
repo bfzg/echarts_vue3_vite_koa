@@ -31,12 +31,13 @@ let pageParams = reactive({
 })
 
 /** 初始化echartInstance对象*/
-var chartInstance = ref({});    //echarts对象实例
+var chartInstance = null;    //echarts对象实例
 let seller_ref = ref(null);     //需要被渲染的dom
+
 
 const initChart = () => {
 
-  chartInstance.value = echarts.init(seller_ref.value, 'chalk');
+  chartInstance = echarts.init(seller_ref.value, 'chalk');
 
   //对图标初始化配置的控制
   const initOption = reactive({
@@ -92,13 +93,13 @@ const initChart = () => {
       }
     ]
   })
-  chartInstance.value.setOption(initOption)
+  chartInstance.setOption(initOption)
 
   //对图表鼠标 移入 移出 事件进行监听
-  chartInstance.value.on('mouseover', () => {
+  chartInstance.on('mouseover', () => {
     clearInterval(timerId.value)
   });
-  chartInstance.value.on('mouseout', () => {
+  chartInstance.on('mouseout', () => {
     startInterval();
   })
 };
@@ -106,7 +107,7 @@ const initChart = () => {
 /** 获取服务器数据 */
 var allData = ref([]);
 const getDate = async () => {
-  let { data: res } = await getSellerData();
+  let { data: res } = await getSellerData('seller');
   allData.value = res.sort((a, b) => {
     return a.value - b.value;    //从小到大排序
   });
@@ -141,7 +142,7 @@ const updateChart = () => {
       }
     ]
   };
-  chartInstance.value.setOption(dataOption)
+  chartInstance.setOption(dataOption)
 }
 
 /** 每隔3秒翻页*/
@@ -182,9 +183,9 @@ const screenAdapter = () => {
       }
     ]
   })
-  chartInstance.value.setOption(adapterOption);
+  chartInstance.setOption(adapterOption);
   //  手动调用图表的对象resize 才能产生效果
-  chartInstance.value.resize();
+  chartInstance.resize();
 }
 </script>
 

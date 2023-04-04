@@ -6,9 +6,9 @@ import http from '../index';
 //         url:"/api/map"
 //     })
 // }
-export function getSellerData (){
+export function getSellerData (value){
     return http({
         method:'get',
-        url:"/seller"
+        url:"/"+value
     })
 }
