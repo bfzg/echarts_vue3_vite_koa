@@ -1,0 +1,60 @@
+<template>
+  <div class='com-container'>
+    <div class="com-chart" ref="hok_ref"></div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import * as echarts from "echarts";
+import { getSellerData } from "@/request/api/api.js";
+import chalks from '../assets/chalk.json';
+import { all } from 'axios';
+echarts.registerTheme('chalk', chalks);
+
+let hok_ref = ref(null);
+
+onMounted(()=>{
+    initChart();
+    getData();
+    window.addEventListener('resize',screenAdapter);
+    screenAdapter();
+});
+
+onUnmounted(()=>{
+    window.removeEventListener('resize', screenAdapter);
+});
+
+/** 初始化E_charts */
+let chartInstance = null;
+const initChart = function(){
+    chartInstance = echarts.init(hok_ref.value,'chalk');
+    let initOption={};
+    chartInstance.setOption(initOption);
+};
+
+/** 请求数据 */
+let allData = ref([]);
+const getData = async function(){
+    let {data:res} = await getSellerData('hok');
+    allData.value = res;
+    console.log(allData.value);
+    updateChart();
+}
+
+/** 数据处理 */
+const updateChart = function(){
+    let dataOption = {};
+    chartInstance.setOption(dataOption);
+}
+
+/** 监听窗口变化 */
+const screenAdapter = function () {
+    let adapterOption = {};
+    chartInstance.setOption(adapterOption);
+    chartInstance.resize();
+}
+</script>
+
+<style scoped>
+</style>

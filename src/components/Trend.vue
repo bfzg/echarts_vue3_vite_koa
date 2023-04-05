@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, reactive,computed } from 'vue';
+import { ref, onMounted, onUnmounted,computed } from 'vue';
 import * as echarts from "echarts";
 import { getSellerData } from "@/request/api/api.js";
 import chalks from '../assets/chalk.json';
@@ -74,7 +74,7 @@ const initChart = function () {
     chartInstance.setOption(initOption);
 };
 /** 请求数据 */
-let allData = ref([]);
+let allData = ref(null);
 const getData = async function () {
     let { data: res } = await getSellerData('trend');
     allData.value = res;
@@ -124,8 +124,7 @@ const updateChart = function () {
     const legendArr = valueArr.map(item => {
         return item.name;
     })
-    console.log(legendArr);
-    let dataOption = reactive({
+    let dataOption = {
         xAxis: {
             data: timeArr
         },
@@ -133,7 +132,7 @@ const updateChart = function () {
             data: legendArr
         },
         series: seriesArr
-    });
+    };
     chartInstance.setOption(dataOption);
 }
 /** 监听窗口变化 */

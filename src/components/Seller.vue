@@ -105,7 +105,7 @@ const initChart = () => {
 };
 
 /** 获取服务器数据 */
-var allData = ref([]);
+var allData = ref(null);
 const getDate = async () => {
   let { data: res } = await getSellerData('seller');
   allData.value = res.sort((a, b) => {
