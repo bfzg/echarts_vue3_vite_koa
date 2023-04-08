@@ -6,7 +6,7 @@
 
 <script setup>
 import * as echarts from "echarts";
-import { ref, onMounted, reactive, onUnmounted } from "vue";
+import { ref, onMounted, reactive, onUnmounted,defineExpose} from "vue";
 import { getSellerData } from "@/request/api/api.js";
 import chalks from '../assets/chalk.json';
 echarts.registerTheme('chalk', chalks);
@@ -164,7 +164,7 @@ const screenAdapter = () => {
   const adapterOption = reactive({
     title: {
       textStyle: {
-        fontSize: titleFontSize
+        fontSize: titleFontSize*1.2
       },
     },
     tooltip: {
@@ -187,6 +187,9 @@ const screenAdapter = () => {
   //  手动调用图表的对象resize 才能产生效果
   chartInstance.resize();
 }
+defineExpose({
+    screenAdapter
+})
 </script>
 
 <style scoped></style>

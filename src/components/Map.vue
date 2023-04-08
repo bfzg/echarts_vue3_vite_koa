@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, reactive } from "vue";
+import { ref, onMounted, onUnmounted, reactive,defineExpose} from "vue";
 import * as echarts from "echarts";
 import { getSellerData } from "@/request/api/api.js";
 import axios from 'axios';
@@ -34,7 +34,7 @@ const initChart = async function () {
     echarts.registerMap('china', ret.data);
     let initOption = {
         title: {
-            text: '🐬 商家分布',
+            text: '🌏 商家分布',
             left: 20,
             top: 20
         },
@@ -140,6 +140,9 @@ const revertMap = function () {
     }
     chartInstance.setOption(revertOption);
 }
+defineExpose({
+    screenAdapter
+})
 </script>
 
 <style scoped></style>

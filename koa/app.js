@@ -12,3 +12,6 @@ const responseDateMiddleware = require('./middleware/koa_response_data');
 app.use(responseDateMiddleware);
 
 app.listen(8888);
+
+const webSocketService = require('./service/web_socket_service.js');
+webSocketService.listen();

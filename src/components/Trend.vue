@@ -1,7 +1,7 @@
 <template>
     <div class='com-container'>
         <div class="title" :style="comStyle">
-            <span>🐲这是标题</span>
+            <span>🚩 地区销量趋势图</span>
             <span class="iconfont title-icon" :style="comStyle" @click="showChoice = !showChoice">&#xe6eb;</span>
             <div class="select-con" v-show="showChoice" :style="marginStyle">
                 <div class="select-item" v-for="item in selectTypes" :key="item.key" @click="handleSelect(item.key)">
@@ -14,16 +14,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted,computed } from 'vue';
+import { ref, onMounted, onUnmounted,computed,onBeforeMount,getCurrentInstance,defineExpose } from 'vue';
 import * as echarts from "echarts";
-import { getSellerData } from "@/request/api/api.js";
+// import { getSellerData } from "@/request/api/api.js";
 import chalks from '../assets/chalk.json';
 echarts.registerTheme('chalk', chalks);
 let trend_ref = ref(null);    //dom
+const {proxy} = getCurrentInstance();
+
+onBeforeMount(()=>{
+    proxy.$socket.registerCallBack('trendData',getData)
+})
 
 onMounted(() => {
     initChart();
-    getData();
+    // getData();
+    proxy.$socket.send({
+        action:'getData',
+        socketType:'trendData',
+        chartName:'trend',
+        value:''  
+    })    
     window.addEventListener('resize', screenAdapter);
     screenAdapter();
 });
@@ -31,6 +42,7 @@ onMounted(() => {
 onUnmounted(() => {
     //组件销毁成功后的生命周期
     window.removeEventListener('resize', screenAdapter);
+    proxy.$socket.unRegisterCallBack("trendData")
 });
 
 //computed 计算属性
@@ -75,8 +87,9 @@ const initChart = function () {
 };
 /** 请求数据 */
 let allData = ref(null);
-const getData = async function () {
-    let { data: res } = await getSellerData('trend');
+const getData = function (res) {
+    // let { data: res } = await getSellerData('trend');
+    console.log(1111);
     allData.value = res;
     updateChart();
 }
@@ -139,7 +152,7 @@ const updateChart = function () {
 let titleFontSize = ref(0);  //标题的大小
 const comStyle = computed(()=>{  //标题大小自适应
     return {
-        fontSize: titleFontSize.value + 'px'
+        fontSize: titleFontSize.value*1.2 + 'px'
     }
 })
 const marginStyle = computed(()=>{
@@ -165,6 +178,9 @@ const handleSelect = function(currentTypes){
     choiceType.value = currentTypes;
     updateChart();
 }
+defineExpose({
+    screenAdapter
+})
 </script>
 
 <style lang="less" scoped>

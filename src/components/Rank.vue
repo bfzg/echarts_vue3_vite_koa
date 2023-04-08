@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted,defineExpose } from 'vue';
 import * as echarts from "echarts";
 import { getSellerData } from "@/request/api/api.js";
 import chalks from '../assets/chalk.json';
@@ -170,6 +170,9 @@ const startIntVal = function () {
         updateChart();
     }, 2300)
 }
+defineExpose({
+    screenAdapter
+})
 </script>
 
 <style scoped></style>

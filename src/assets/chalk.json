@@ -157,7 +157,7 @@
             "itemStyle": {
                 "areaColor": "rgba(255,178,72,1)",
                 "borderColor": "#eb8146",
-                "borderWidth": 1
+                "borderWidth": 1   
             },
             "label": {
                 "color": "rgb(137,52,72)"

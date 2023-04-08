@@ -8,11 +8,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted,computed } from 'vue';
+import { ref, onMounted, onUnmounted,computed,defineExpose } from 'vue';
 import * as echarts from "echarts";
 import { getSellerData } from "@/request/api/api.js";
 import chalks from '../assets/chalk.json';
-import axios from 'axios';
 echarts.registerTheme('chalk', chalks);
 
 let hot_ref = ref(null);
@@ -159,20 +158,20 @@ const toRight = function(){
     } 
     updateChart();
 }
+defineExpose({
+    screenAdapter
+})
 </script>
 
 <style lang="less" scoped>
 .arr-left {
     position: absolute;
-    left: 10%;
+    left: 1%;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     color: black;
-    width: 50px;
-    height: 100px;
     font-size: 40px;
-    background-color: rgba(255, 255, 255, 0.5);
     line-height: 100px;
     border-radius: 10px;
     text-align: center;
@@ -180,24 +179,20 @@ const toRight = function(){
             //ps 这里可以搞个公共类我懒得搞了
 .arr-right {
     position: absolute;
-    right: 10%;
+    right: 1%;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     color: black;
-    width: 50px;
-    height: 100px;
     font-size: 40px;
-    background-color: rgba(255, 255, 255, 0.5);
     line-height: 100px;
     border-radius: 10px;
     text-align: center;
 }
 .cat-name{
     position: absolute;
-    left: 80%;
-    bottom: 30px;
-    font-size: 36px;
+    right: 10%;
+    bottom: 1%;
     color: #fff;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.5);
